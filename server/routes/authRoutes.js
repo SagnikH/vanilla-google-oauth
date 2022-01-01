@@ -19,8 +19,8 @@ router.get("/logout", (req, res) => {
 		.cookie("jwtToken", "", {
 			httpOnly: true,
 			expires: new Date(0),
-			// secure: true,
-			// sameSite: "none",
+			secure: true,
+			sameSite: "none",
 		})
 		.redirect(process.env.CLIENT_URL);
 });
