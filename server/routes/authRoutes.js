@@ -1,4 +1,8 @@
-const { getGoogleAuthURL, getGoogleUser } = require("../utils/google-auth");
+const {
+	googleCallbackHandler,
+} = require("../controllers/authGoogleCallbackHandler");
+const { googleCallback } = require("../middlewares/authMiddleware");
+const { getGoogleAuthURL } = require("../utils/googleAuth");
 
 require("dotenv").config();
 
@@ -8,14 +12,17 @@ router.get("/google", (req, res) => {
 	res.redirect(getGoogleAuthURL());
 });
 
-router.get("/google/callback", async (req, res) => {
-	const code = req.query.code;
+router.get("/google/callback", googleCallback, googleCallbackHandler);
 
-	const googleUser = await getGoogleUser({code});
-	console.log("google user", googleUser);
-
-	res.json(googleUser);
+router.get("/logout", (req, res) => {
+	res
+		.cookie("jwtToken", "", {
+			httpOnly: true,
+			expires: new Date(0),
+			// secure: true,
+			// sameSite: "none",
+		})
+		.redirect(process.env.CLIENT_URL);
 });
-
 
 module.exports = router;
