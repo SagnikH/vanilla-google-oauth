@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const { getGoogleUser } = require("../utils/googleAuth");
 require("dotenv").config();
@@ -15,10 +16,10 @@ const googleCallback = async (req, res, next) => {
 
 		var user = await User.findOne({ email });
 
-		if (!user){
-      console.log("creating new user");
+		if (!user) {
+			console.log("creating new user");
 			user = await User.create({ email, name, googleID: id, picture });
-    }
+		}
 
 		res.locals._id = user._id;
 		next();
@@ -28,4 +29,24 @@ const googleCallback = async (req, res, next) => {
 	}
 };
 
-module.exports = { googleCallback };
+const verifyJWT = async (req, res, next) => {
+	if (!req.cookies.jwtToken) {
+		res.status(403).json("no jwt Token");
+		return;
+	}
+
+	const jwtToken = req.cookies.jwtToken;
+
+	try {
+		const decoded = jwt.verify(jwtToken, process.env.JWT_PRIVATE_KEY);
+		console.log("decoded", decoded);
+		res.locals._id = decoded._id;
+
+		next();
+	} catch (e) {
+		console.error("error in verify jwt", e);
+		res.status(403).json(e);
+	}
+};
+
+module.exports = { googleCallback, verifyJWT };

@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes");
+const apiRoutes = require("./routes/apiRoutes");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -21,6 +23,7 @@ const app = express();
 
 //middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(
 	cors({
@@ -31,6 +34,7 @@ app.use(
 );
 
 app.use("/auth", authRoutes);
+app.use("/api", apiRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Let's start");
