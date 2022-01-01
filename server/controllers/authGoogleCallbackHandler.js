@@ -12,8 +12,8 @@ const googleCallbackHandler = (req, res) => {
 	res
 		.cookie("jwtToken", jwtToken, {
 			httpOnly: true,
-			// secure: true,
-			// sameSite: "none",
+			secure: true,
+			sameSite: "none",
 		})
 		.redirect(process.env.CLIENT_URL);
 };
