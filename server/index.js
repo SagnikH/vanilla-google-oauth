@@ -27,7 +27,7 @@ app.use(cookieParser());
 
 app.use(
 	cors({
-		origin: process.env.CLIENT_URL, // "http://localhost:3000"
+		origin: process.env.CLIENT_DOMAIN, // "http://localhost:3000"
 		methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 		credentials: true, // allow session cookie from browser to pass through
 	})

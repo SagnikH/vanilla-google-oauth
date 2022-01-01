@@ -1,0 +1,10 @@
+function getData() {
+    // fetch("http://localhost:4000/api/user", {
+    //     credentials: 'include'
+    // }).then(data => {
+    //     document.getElementById('info').innerHTML = JSON.stringify(data);
+    // })
+    axios.get("http://localhost:4000/api/user", {
+        withCredentails: true
+    }).then(data => { document.getElementById('info').innerHTML = data; }).catch(err => console.log)
+}
