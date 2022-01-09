@@ -13,6 +13,7 @@ const app = express();
 
 (async () => {
 	try {
+    console.log(URI);
 		const connection = await mongoose.connect(URI);
 
 		console.log("conneted to db");

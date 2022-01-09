@@ -9,7 +9,8 @@ require("dotenv").config();
 const router = require("express").Router();
 
 router.get("/google", (req, res) => {
-	res.redirect(getGoogleAuthURL());
+	console.log(req.query);
+	res.redirect(getGoogleAuthURL(req.query));
 });
 
 router.get("/google/callback", googleCallback, googleCallbackHandler);
